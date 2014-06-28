@@ -4,6 +4,16 @@ var express = require('express')
 
 var invites = require('./routes/invites');
 
+var mongoskin = require('mongoskin');
+// init mongodb stuff
+var db = mongoskin.db('mongodb://localhost:27017/guests?auto_reconnect', {safe:true});
+
+app.use(function(req, res, next) {
+  req.db = {};
+  req.db.guests = db.collection('guests');
+  next();
+})
+
   // assign the swig engine to .html files
 app.engine('html', swig.renderFile);
 
@@ -20,6 +30,7 @@ app.use(express.static(__dirname + '/public'));
  */
 app.get('/', invites.index);
 app.get('/guests', invites.guests);
+app.post('/invite', invites.invite);
 
 /**
  * Start server
