@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+{% block content %}
+	<p> 
+		 <p><a class="btn btn-lg btn-success" href="#" role="button">Einladen</a></p>
+	</p>
+	<p>
+		<table class="table">
+    		<thead>
+    			<tr>
+					<th>Name</th>
+					<th>Link zur Einladung</th>
+					<th>Zusage</th>
+				</tr>
+    		</thead>
+    		<tbody>
+    			{% for guest in guest %}
+    				<tr>
+						<th>{{ guest.name }}</th>
+						<th>{{ guest.link }}</th>
+						<th>{{ guest.affirmative }}</th>
+					</tr>
+    			{% endfor  %}
+    		</tbody>
+  		</table>
+	</p>
+{% endblock %}

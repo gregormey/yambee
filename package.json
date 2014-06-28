@@ -1,0 +1,10 @@
+{
+  "name": "yambee",
+  "description": "Web App to Organize Party Invitation",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "4.x",
+    "swig": "1.x"
+  }
+}
