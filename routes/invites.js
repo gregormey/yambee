@@ -9,14 +9,58 @@ var Invites={
     },
 
     guests:function(req, res){
-	    	req.db.guests.find().toArray(function(error, guests){
-			    if (error) return next(error);
-			    
-			    res.render('guests', {
-			      active:function(page){return page=="guests"?"active":"";},
-			      guests: guests || []
-			    });
+    		var guests=false;
+    		var invites=false;
+    		var aggrees=false;
+    		var refuses=false;
+
+    		var render=function(){
+    			
+			   	if(invites!==false && 
+			   		guests!==false && 
+			   		aggrees!==false && 
+			   		refuses!==false){
+						res.render('guests', {
+				      		active:function(page){return page=="guests"?"active":"";},
+				      		guests: guests,
+				      		invites:invites,
+				      		aggrees:aggrees,
+				      		refuses:refuses
+				    	});
+				}
+			};
+
+    		//collect guests
+	    	req.db.guests.find().toArray(function(error, guestsList){
+			    if (error) return next(error);guestsList
+			    guests=guestsList||[];	
+			    render();
 			  });
+
+	    	//count invites
+			req.db.guests.count(function(error, count){
+			    if (error) return next(error);
+			    invites=count;
+			    render();	
+			  });	    	
+
+			//count aggrees
+			req.db.guests.count({affirmative:1},function(error, count){
+			    if (error) return next(error);
+			    aggrees=count;
+			    render();	
+			  });
+
+			//count refuses
+			req.db.guests.count({affirmative:0},function(error, count){
+			    if (error) return next(error);
+			    refuses=count;
+			    render();	
+			  });
+
+
+	    	
+
     },
 
     updateAffirmative:function(value,req, res){

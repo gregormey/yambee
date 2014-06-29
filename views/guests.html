@@ -1,5 +1,33 @@
 {% extends 'layout.html' %}
 {% block content %}
+	<p>
+		<div class="row">
+  			<div class="col-sm-6 col-md-4">
+				<div class="panel panel-primary">
+		  			<div class="panel-heading">Eingeladen</div>
+		  			<div class="panel-body">
+		   				 {{ invites }}
+		  			</div>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-4">
+				<div class="panel panel-success">
+		  			<div class="panel-heading">Zusagen</div>
+		  			<div class="panel-body">
+		   				 {{ aggrees }}
+		  			</div>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-4">
+				<div class="panel panel-danger">
+		  			<div class="panel-heading">Absagen</div>
+		  			<div class="panel-body">
+		   				 {{ refuses }}
+		  			</div>
+				</div>
+			</div>
+
+	</p>
 	<p> 
 		 <button class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">Einladen</button>
 	</p>
