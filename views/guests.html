@@ -17,7 +17,16 @@
     				<tr>
 						<td>{{ guest.name }}</td>
 						<td>{{ guest.link }}</td>
-						<td>{{ guest.affirmative }}</td>
+						<td>
+							{% if guest.affirmative == null %}
+								<span class="glyphicon glyphicon-minus"></span> 
+							{% elseif guest.affirmative == true %}
+								<span class="glyphicon glyphicon-ok"></span> 
+							{% elseif guest.affirmative == false %}
+								<span class="glyphicon glyphicon-remove"></span> 
+							{% endif %}
+
+						</td>
 						<td>
 							<form method='post' action="/remove" >
 								<button type="submit" class="btn btn-danger btn-xs">
