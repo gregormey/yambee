@@ -91,7 +91,7 @@ var Invites={
     },
 
     getInviteUrl:function(id){
-    	return "http://localhost/affirmative/"+id;
+    	return "http://192.168.2.104/affirmative/"+id;
     },
 
     affirmative:function(req, res, next){
