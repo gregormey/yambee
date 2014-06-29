@@ -25,7 +25,8 @@ var Invites={
 				      		guests: guests,
 				      		invites:invites,
 				      		aggrees:aggrees,
-				      		refuses:refuses
+				      		refuses:refuses,
+				      		isAdmin:Invites.isAdmin(req.session.guest.name)
 				    	});
 				}
 			};
@@ -92,6 +93,10 @@ var Invites={
 
     getInviteUrl:function(id){
     	return "http://192.168.2.104/affirmative/"+id;
+    },
+
+    isAdmin:function(name){
+    	return ["Maike","Gregor"].indexOf(name)>=0?true:false;
     },
 
     affirmative:function(req, res, next){

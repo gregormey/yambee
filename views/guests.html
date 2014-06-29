@@ -29,14 +29,16 @@
 
 	</p>
 	<p> 
+		{% if isAdmin %}
 		 <button class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">Einladen</button>
+		{% endif %}
 	</p>
 	<p>
 		<table class="table">
     		<thead>
     			<tr>
 					<th>Name</th>
-					<th>Link zur Einladung</th>
+					<th>{% if isAdmin %}Link zur Einladung{% endif %}</th>
 					<th>Zusage</th>
 				</tr>
     		</thead>
@@ -44,7 +46,11 @@
     			{% for guest in guests %}
     				<tr>
 						<td>{{ guest.name }}</td>
-						<td>{{ guest.link }}</td>
+						<td>
+							{% if isAdmin %}	
+								{{ guest.link }}
+							{% endif %}
+						</td>
 						<td>
 							{% if guest.affirmative === null %}
 								<span class="glyphicon glyphicon-minus"></span> 
@@ -56,12 +62,14 @@
 
 						</td>
 						<td>
-							<form method='post' action="/remove" >
-								<button type="submit" class="btn btn-danger btn-xs">
-	  								<span class="glyphicon glyphicon-trash"></span>
-								</button>
-								<input type="hidden" name="id" value="{{ guest._id.toString() }}">
-							</form>
+							{% if isAdmin %}
+								<form method='post' action="/remove" >
+									<button type="submit" class="btn btn-danger btn-xs">
+		  								<span class="glyphicon glyphicon-trash"></span>
+									</button>
+									<input type="hidden" name="id" value="{{ guest._id.toString() }}">
+								</form>
+							{% endif %}
 						</td>
 					</tr>
     			{% endfor  %}
