@@ -18,8 +18,8 @@ var Invites={
 		  });
     },
 
-    getInviteUrl:function(name){
-    	return "http://hochzeit.gregormeyenberg.de/"+name;
+    getInviteUrl:function(id){
+    	return "http://hochzeit.gregormeyenberg.de/"+id;
     },
 
     invite:function(req, res, next){
@@ -27,13 +27,23 @@ var Invites={
 		  
 		  req.db.guests.save({
 		    name: req.body.name,
-		    link: Invites.getInviteUrl(req.body.name),
+		    link: null,
 		    affirmative: null
 		  }, function(error, guest){
 		    if (error) return next(error);
 		    if (!guest) return next(new Error('Failed to save.'));
 		    console.info('Added %s with id=%s', guest.name, guest._id);
-		    res.redirect('/guests');
+		    
+		    //create invitation link
+		    req.db.guests.updateById(guest._id.toString(),
+		    		{$set:{link:Invites.getInviteUrl(guest._id.toString())}},
+		    	function(error, guest){
+		    		if (error) return next(error);
+		    		if (!guest) return next(new Error('Failed to update invitation link.'));
+		    		res.redirect('/guests');
+		    		console.info('Updated invitation link %s with id=%s', guest.name, guest._id);
+		    	}
+		    );
 		  })
 
     },
