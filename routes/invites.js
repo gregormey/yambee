@@ -9,17 +9,41 @@ var Invites={
     },
 
     guests:function(req, res){
-    	if(req.session.guest){
 	    	req.db.guests.find().toArray(function(error, guests){
 			    if (error) return next(error);
+			    
 			    res.render('guests', {
 			      active:function(page){return page=="guests"?"active":"";},
 			      guests: guests || []
 			    });
 			  });
-	    }else{
-	    	res.send(403);
-	    }
+    },
+
+    updateAffirmative:function(value,req, res){
+    	req.db.guests.updateById(req.session.guest._id.toString(),
+		    		{$set:{affirmative:value}},
+		    	function(error, count){
+		    		if (error) return next(error);
+		    		
+		    		req.db.guests.findById(req.session.guest._id,function(error,guest)
+		    			{
+		    				 if (error) return next(error);
+		    				 req.session.guest=guest;
+		    				res.redirect('/guests');
+		    				console.info('Updated affirmative %s with id=%s to %s', guest.name, guest._id, value);
+		    			}
+		    		);
+		    		
+		    	}
+		    );
+    },
+
+    agree:function(req, res){
+    	Invites.updateAffirmative(1,req, res);
+    },
+
+    refuse:function(req, res){
+    	Invites.updateAffirmative(0,req, res);
     },
 
     getInviteUrl:function(id){
@@ -27,14 +51,11 @@ var Invites={
     },
 
     affirmative:function(req, res, next){
-    	if(req.session.guest){
+    		console.info(req.session.guest.affirmative);
 	    	res.render('affirmative', 
 	    		{active:function(page){return page=="affirmative"?"active":"";},
 	    		guest:req.session.guest}
 	    	);
-	    }else{
-	    	res.send(403);
-	    }
     },
 
     invite:function(req, res, next){
@@ -81,3 +102,5 @@ exports.guests=Invites.guests;
 exports.invite=Invites.invite;
 exports.remove=Invites.remove;
 exports.affirmative=Invites.affirmative;
+exports.agree=Invites.agree;
+exports.refuse=Invites.refuse;

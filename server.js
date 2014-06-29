@@ -17,6 +17,7 @@ app.use(function(req, res, next) {
   next();
 });
 
+
 //enable session session
  app.use(session({secret:"american nails"}));
 
@@ -45,7 +46,14 @@ app.param('guest_id', function(req, res, next, guestId) {
   });
 });
 
-
+//deny acces if it is no valid guest
+app.use(function(req, res, next){
+	if(!req.session.guest){
+		res.send(403);
+	}else{
+		next();
+	}
+});
 
 /**
  * route configuration
@@ -57,6 +65,8 @@ app.post('/invite', invites.invite);
 app.post('/remove', invites.remove);
 app.get('/affirmative/:guest_id', invites.affirmative);
 app.get('/affirmative', invites.affirmative);
+app.get('/agree', invites.agree);
+app.get('/refuse', invites.refuse);
 
 /**
  * Start server

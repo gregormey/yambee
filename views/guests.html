@@ -18,12 +18,12 @@
 						<td>{{ guest.name }}</td>
 						<td>{{ guest.link }}</td>
 						<td>
-							{% if guest.affirmative == null %}
+							{% if guest.affirmative === null %}
 								<span class="glyphicon glyphicon-minus"></span> 
-							{% elseif guest.affirmative == true %}
-								<span class="glyphicon glyphicon-ok"></span> 
-							{% elseif guest.affirmative == false %}
+							{% elseif guest.affirmative === 0 %}
 								<span class="glyphicon glyphicon-remove"></span> 
+							{% elseif guest.affirmative === 1 %}
+								<span class="glyphicon glyphicon-ok"></span> 
 							{% endif %}
 
 						</td>

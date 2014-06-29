@@ -1,8 +1,21 @@
 {% extends 'layout.html' %}
 {% block content %}
-	<h1>Hallo {{ guest.name}}, Bist Du dabei?</h1>
-	<p> 
-		 <button class="btn btn-success btn-lg">Zusagen</button>
-		 <button class="btn btn-danger btn-lg">Absagen</button>
-	</p>
+	{% if guest.affirmative == null %}
+		<h1>Hallo {{ guest.name}}, Bist Du dabei?</h1>
+		<p> 
+			 <a class="btn btn-lg btn-success" href="/agree" role="button">Zusagen</a>
+			 <a class="btn btn-lg btn-danger" href="/refuse" role="button">Absagen</a>
+		</p>
+	{% elseif guest.affirmative == 1 %}
+		<h1>Hallo {{ guest.name}}, Da hast zugesagt, möchtest Du absagen?</h1>
+		<p> 
+			 <a class="btn btn-lg btn-danger" href="/refuse" role="button">Absagen</a>
+		</p>
+	{% elseif guest.affirmative == 0 %}
+		<h1>Hallo {{ guest.name}}, Da hast abgesagt, möchtest Du zusagen?</h1>
+		<p> 
+			 <a class="btn btn-lg btn-success" href="/agree" role="button">Zusagen</a>
+		</p>
+	{% endif %}
+
 {% endblock %}
