@@ -48,7 +48,7 @@
 						<td>{{ guest.name }}</td>
 						<td>
 							{% if isAdmin %}	
-								{{ guest.link }}
+								<a href="{{ guest.link }}">{{ guest.link }}</a>
 							{% endif %}
 						</td>
 						<td>
