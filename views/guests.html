@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block content %}
 	<p> 
-		 <p><a class="btn btn-lg btn-success" href="#" role="button">Einladen</a></p>
+		 <button class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">Einladen</button>
 	</p>
 	<p>
 		<table class="table">
@@ -13,14 +13,25 @@
 				</tr>
     		</thead>
     		<tbody>
-    			{% for guest in guest %}
+    			{% for guest in guests %}
     				<tr>
-						<th>{{ guest.name }}</th>
-						<th>{{ guest.link }}</th>
-						<th>{{ guest.affirmative }}</th>
+						<td>{{ guest.name }}</td>
+						<td>{{ guest.link }}</td>
+						<td>{{ guest.affirmative }}</td>
+						<td>
+							<form method='post' action="/remove" >
+								<button type="submit" class="btn btn-danger btn-xs">
+	  								<span class="glyphicon glyphicon-trash"></span>
+								</button>
+								<input type="hidden" name="id" value="{{ guest._id.toString() }}">
+							</form>
+						</td>
 					</tr>
     			{% endfor  %}
     		</tbody>
   		</table>
 	</p>
 {% endblock %}
+{% block modal %}
+	{% include "./invite.html" %}
+{% endblock%}

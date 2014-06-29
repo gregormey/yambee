@@ -6,6 +6,7 @@
   "dependencies": {
     "express": "4.x",
     "swig": "1.x",
-    "mongoskin": "1.x"
+    "mongoskin": "1.x",
+    "body-parser": "1.x"
    }
 }

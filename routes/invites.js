@@ -9,6 +9,7 @@ var Invites={
     },
 
     guests:function(req, res){
+
     	req.db.guests.find().toArray(function(error, guests){
 		    if (error) return next(error);
 		    res.render('guests', {
@@ -21,7 +22,7 @@ var Invites={
     	return "http://hochzeit.gregormeyenberg.de/"+name;
     },
 
-    invite:function(req, res){
+    invite:function(req, res, next){
     	if (!req.body || !req.body.name) return next(new Error('No data provided.'));
 		  
 		  req.db.guests.save({
@@ -32,8 +33,18 @@ var Invites={
 		    if (error) return next(error);
 		    if (!guest) return next(new Error('Failed to save.'));
 		    console.info('Added %s with id=%s', guest.name, guest._id);
-		    res.redirect('/guest');
+		    res.redirect('/guests');
 		  })
+
+    },
+
+    remove: function(req, res, next){
+    	 req.db.guests.removeById(req.body.id, function(error, count) {
+		    if (error) return next(error);
+		    if (count !==1) return next(new Error('Something went wrong.'));
+		    console.info('Deleted guest with id=%s completed.', req.body.id);
+		    res.redirect('/guests');
+		  });
 
     }
 };
@@ -43,3 +54,4 @@ var Invites={
 exports.index=Invites.index;
 exports.guests=Invites.guests;
 exports.invite=Invites.invite;
+exports.remove=Invites.remove;

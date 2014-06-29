@@ -1,5 +1,6 @@
 var express = require('express')
   , swig = require('swig')
+  , bodyParser = require('body-parser')
   , app = express();
 
 var invites = require('./routes/invites');
@@ -25,12 +26,16 @@ app.set('views', __dirname + '/views');
 //GET public assets
 app.use(express.static(__dirname + '/public'));
 
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({extended:true}));
+
 /**
  * route configuration
  */
 app.get('/', invites.index);
 app.get('/guests', invites.guests);
 app.post('/invite', invites.invite);
+app.post('/remove', invites.remove);
 
 /**
  * Start server
