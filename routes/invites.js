@@ -136,6 +136,10 @@ var Invites={
 		    res.redirect('/guests');
 		  });
 
+    },
+
+    info:function(req, res, next){
+    	res.render('info',{active:function(page){return page=="info"?"active":"";}});
     }
 };
 
@@ -148,3 +152,4 @@ exports.remove=Invites.remove;
 exports.affirmative=Invites.affirmative;
 exports.agree=Invites.agree;
 exports.refuse=Invites.refuse;
+exports.info=Invites.info;

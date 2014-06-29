@@ -67,6 +67,7 @@ app.get('/affirmative/:guest_id', invites.affirmative);
 app.get('/affirmative', invites.affirmative);
 app.get('/agree', invites.agree);
 app.get('/refuse', invites.refuse);
+app.get('/info', invites.info);
 
 /**
  * Start server
