@@ -9,17 +9,32 @@ var Invites={
     },
 
     guests:function(req, res){
-
-    	req.db.guests.find().toArray(function(error, guests){
-		    if (error) return next(error);
-		    res.render('guests', {
-		      guests: guests || []
-		    });
-		  });
+    	if(req.session.guest){
+	    	req.db.guests.find().toArray(function(error, guests){
+			    if (error) return next(error);
+			    res.render('guests', {
+			      active:function(page){return page=="guests"?"active":"";},
+			      guests: guests || []
+			    });
+			  });
+	    }else{
+	    	res.send(403);
+	    }
     },
 
     getInviteUrl:function(id){
-    	return "http://hochzeit.gregormeyenberg.de/"+id;
+    	return "http://localhost/affirmative/"+id;
+    },
+
+    affirmative:function(req, res, next){
+    	if(req.session.guest){
+	    	res.render('affirmative', 
+	    		{active:function(page){return page=="affirmative"?"active":"";},
+	    		guest:req.session.guest}
+	    	);
+	    }else{
+	    	res.send(403);
+	    }
     },
 
     invite:function(req, res, next){
@@ -65,3 +80,4 @@ exports.index=Invites.index;
 exports.guests=Invites.guests;
 exports.invite=Invites.invite;
 exports.remove=Invites.remove;
+exports.affirmative=Invites.affirmative;

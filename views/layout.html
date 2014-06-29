@@ -24,9 +24,9 @@
      <div class="container">
       <div class="header">
         <ul class="nav nav-pills pull-right">
-          <li class="active"><a href="#">Gästeliste</a></li>
-          <li ><a href="#">Zusagen</a></li>
-          <li><a href="#">Info</a></li>
+          <li class="{{ active('guests') }}"><a href="/guests">Gästeliste</a></li>
+          <li class="{{ active('affirmative') }}"><a href="/affirmative">Zusagen</a></li>
+          <li class="{{ active('info') }}"><a href="/info">Info</a></li>
         </ul>
         <h3 class="text-muted">Hochzeitsparty Maike&Gregor</h3>
       </div>
