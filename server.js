@@ -58,13 +58,13 @@ app.param('guest_id', function(req, res, next, guestId) {
 
 
 //deny acces if it is no valid guest
-/*app.use(function(req, res, next){
+app.use(function(req, res, next){
   if(!req.session.guest && !req.params.guest_id){
     res.send(403);
   }else{
     next();
   }
-});*/
+});
 
 
 

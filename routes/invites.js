@@ -26,7 +26,7 @@ var Invites={
 				      		invites:invites,
 				      		aggrees:aggrees,
 				      		refuses:refuses,
-				      		isAdmin:true//Invites.isAdmin(req.session.guest.name)
+				      		isAdmin:Invites.isAdmin(req.session.guest.name)
 				    	});
 				}
 			};
