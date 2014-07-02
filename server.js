@@ -49,6 +49,7 @@ app.param('guest_id', function(req, res, next, guestId) {
     if (!guest){
       console.info("Guest not found");
       res.send(403).end();
+      return next();
     }
     console.info("found guest "+guest.name);
     req.session.guest = guest;
