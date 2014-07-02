@@ -48,6 +48,16 @@ app.param('guest_id', function(req, res, next, guestId) {
 });
 
 
+//deny acces if it is no valid guest
+app.use(function(req, res, next){
+  if(!req.session.guest && !req.params.guest_id){
+    res.send(403);
+  }else{
+    next();
+  }
+});
+
+
 
 /**
  * route configuration
@@ -63,14 +73,6 @@ app.get('/agree', invites.agree);
 app.get('/refuse', invites.refuse);
 app.get('/info', invites.info);
 
-//deny acces if it is no valid guest
-app.use(function(req, res, next){
-	if(!req.session.guest && !req.params.guest_id){
-		res.send(403);
-	}else{
-		next();
-	}
-});
 
 
 /**
