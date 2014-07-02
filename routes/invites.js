@@ -91,8 +91,8 @@ var Invites={
     	Invites.updateAffirmative(0,req, res);
     },
 
-    getInviteUrl:function(id){
-    	return "http://hochzeit.gregormeyenberg.de/affirmative/"+id;
+    getInviteUrl:function(req,id){
+    	return "http://"+req.host+"/affirmative/"+id;
     },
 
     isAdmin:function(name){
@@ -119,7 +119,7 @@ var Invites={
 		    
 		    //create invitation link
 		    req.db.guests.updateById(guest._id.toString(),
-		    		{$set:{link:Invites.getInviteUrl(guest._id.toString())}},
+		    		{$set:{link:Invites.getInviteUrl(req,guest._id.toString())}},
 		    	function(error, guest){
 		    		if (error) return next(error);
 		    		if (!guest) return next(new Error('Failed to update invitation link.'));
