@@ -43,17 +43,16 @@ app.get('/affirmative/:guest_id', invites.affirmative);
 
 //init guest if id is given
 app.param('guest_id', function(req, res, next, guestId) {
-  console.info(guestId);
   req.db.guests.findById(guestId, function(error, guest){
     if (error) return next(error);
     if (!guest){
       console.info("Guest not found");
       res.send(403).end();
+    }else{
+      console.info("found guest "+guest.name);
+      req.session.guest = guest;
       return next();
     }
-    console.info("found guest "+guest.name);
-    req.session.guest = guest;
-    return next();
   });
 });
 
