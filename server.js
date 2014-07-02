@@ -3,6 +3,7 @@ var express = require('express')
   , bodyParser = require('body-parser')
   , cookieParser = require('cookie-parser')
   , session = require('cookie-session')
+  , vhost = require('vhost')
   , app = express();
 
 var invites = require('./routes/invites');
@@ -10,6 +11,8 @@ var invites = require('./routes/invites');
 var mongoskin = require('mongoskin');
 // init mongodb stuff
 var db = mongoskin.db('mongodb://localhost:27017/guests?auto_reconnect', {safe:true});
+
+
 
 app.use(function(req, res, next) {
   req.db = {};
@@ -74,9 +77,20 @@ app.get('/refuse', invites.refuse);
 app.get('/info', invites.info);
 
 
+//register app on a vhost if given
+if(!process.argv[2]){
+  /**
+    * Start server
+  */
+  app.listen(80);
+  console.log('yambee Server listening port 80');
+}else{
+  var vhostapp=express();
+  var vhostname=process.argv[2];
+  vhostapp.use(vhost(vhostname, app));
+  vhostapp.listen(80);
+  console.log('yambee Server listening port 80 on vhost '+ vhostname);
+}
 
-/**
- * Start server
- */
-app.listen(80);
-console.log('yambee Server listening port 80');
+
+
