@@ -74,7 +74,7 @@ var Invites={
 		    			{
 		    				 if (error) return next(error);
 		    				 req.session.guest=guest;
-		    				res.redirect('/guests');
+		    				res.redirect('/info');
 		    				console.info('Updated affirmative %s with id=%s to %s', guest.name, guest._id, value);
 		    			}
 		    		);

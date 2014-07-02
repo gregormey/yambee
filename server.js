@@ -52,7 +52,7 @@ app.param('guest_id', function(req, res, next, guestId) {
 /**
  * route configuration
  */
-app.get('/', invites.index);
+app.get('/', invites.info);
 app.get('/guests', invites.guests);
 app.get('/guests/:guest_id', invites.guests);
 app.post('/invite', invites.invite);
