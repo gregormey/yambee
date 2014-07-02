@@ -48,7 +48,7 @@ app.param('guest_id', function(req, res, next, guestId) {
     if (error) return next(error);
     if (!guest){
       console.info("Guest not found");
-      res.send(403);
+      res.send(403).end();
     }
     console.info("found guest "+guest.name);
     req.session.guest = guest;
@@ -60,7 +60,7 @@ app.param('guest_id', function(req, res, next, guestId) {
 //deny acces if it is no valid guest
 app.use(function(req, res, next){
   if(!req.session.guest && !req.params.guest_id){
-    res.send(403);
+    res.send(403).end();
   }else{
     next();
   }
