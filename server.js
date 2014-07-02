@@ -97,5 +97,16 @@ if(!process.argv[2]){
   console.log('yambee Server listening port 80 on vhost '+ vhostname);
 }
 
+//show Admin link
+db.collection('guests').findOne({"name":"Gregor"},
+  function(error,guest){
+    if (error) return next(error);
+    if (guest){
+      console.info("Admin access:"+guest.link);
+    }else{
+      console.info("No admin created");
+    }
+});
+
 
 
