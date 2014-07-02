@@ -17,6 +17,11 @@ var db = mongoskin.db('mongodb://localhost:27017/guests?auto_reconnect', {safe:t
 app.use(function(req, res, next) {
   req.db = {};
   req.db.guests = db.collection('guests');
+  if(process.argv[2]!=undefined){
+    req.host=process.argv[2];
+  }else{
+    req.host="localhost";
+  }
   next();
 });
 

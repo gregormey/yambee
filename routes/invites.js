@@ -92,7 +92,7 @@ var Invites={
     },
 
     getInviteUrl:function(id){
-    	return "http://192.168.2.104/affirmative/"+id;
+    	return "http://hochzeit.gregormeyenberg.de/affirmative/"+id;
     },
 
     isAdmin:function(name){
