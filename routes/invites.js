@@ -26,7 +26,7 @@ var Invites={
 				      		invites:invites,
 				      		aggrees:aggrees,
 				      		refuses:refuses,
-				      		isAdmin:Invites.isAdmin(req.session.guest.name)
+				      		isAdmin:true//Invites.isAdmin(req.session.guest.name)
 				    	});
 				}
 			};
@@ -107,11 +107,9 @@ var Invites={
 	    	);
     },
 
-    invite:function(req, res, next){
-    	if (!req.body || !req.body.name) return next(new Error('No data provided.'));
-		  
-		  req.db.guests.save({
-		    name: req.body.name,
+    createGuest:function(req,name,callback){
+    	req.db.guests.save({
+		    name: name,
 		    link: null,
 		    affirmative: null
 		  }, function(error, guest){
@@ -125,11 +123,22 @@ var Invites={
 		    	function(error, guest){
 		    		if (error) return next(error);
 		    		if (!guest) return next(new Error('Failed to update invitation link.'));
-		    		res.redirect('/guests');
+		    		if(callback)
+		    			callback();
 		    		console.info('Updated invitation link %s with id=%s', guest.name, guest._id);
 		    	}
 		    );
 		  })
+    },
+
+    invite:function(req, res, next){
+    	if (!req.body || !req.body.name) return next(new Error('No data provided.'));
+
+		Invites.createGuest(req,
+							req.body.name,
+							function(){res.redirect('/guests');}
+							);
+		  
 
     },
 
@@ -158,3 +167,4 @@ exports.affirmative=Invites.affirmative;
 exports.agree=Invites.agree;
 exports.refuse=Invites.refuse;
 exports.info=Invites.info;
+exports.createGuest=Invites.createGuest;

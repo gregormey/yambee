@@ -20,8 +20,6 @@ app.use(function(req, res, next) {
   next();
 });
 
-
-
 //enable session session
  app.use(session({secret:"american nails"}));
 
@@ -39,11 +37,19 @@ app.use(express.static(__dirname + '/public'));
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended:true}));
 
+//identification routs
+app.get('/guests/:guest_id', invites.guests);
+app.get('/affirmative/:guest_id', invites.affirmative);
+
 //init guest if id is given
 app.param('guest_id', function(req, res, next, guestId) {
+  console.info(guestId);
   req.db.guests.findById(guestId, function(error, guest){
     if (error) return next(error);
-    if (!guest) return next(new Error('Guest is not found.'));
+    if (!guest){
+      console.info("Guest not found");
+      res.send(403);
+    }
     console.info("found guest "+guest.name);
     req.session.guest = guest;
     return next();
@@ -52,13 +58,13 @@ app.param('guest_id', function(req, res, next, guestId) {
 
 
 //deny acces if it is no valid guest
-app.use(function(req, res, next){
+/*app.use(function(req, res, next){
   if(!req.session.guest && !req.params.guest_id){
     res.send(403);
   }else{
     next();
   }
-});
+});*/
 
 
 
@@ -67,20 +73,19 @@ app.use(function(req, res, next){
  */
 app.get('/', invites.info);
 app.get('/guests', invites.guests);
-app.get('/guests/:guest_id', invites.guests);
 app.post('/invite', invites.invite);
 app.post('/remove', invites.remove);
-app.get('/affirmative/:guest_id', invites.affirmative);
 app.get('/affirmative', invites.affirmative);
 app.get('/agree', invites.agree);
 app.get('/refuse', invites.refuse);
 app.get('/info', invites.info);
 
 
+
 //register app on a vhost if given
 if(!process.argv[2]){
-  /**
-    * Start server
+/**
+  * Start server
   */
   app.listen(80);
   console.log('yambee Server listening port 80');
