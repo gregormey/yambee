@@ -48,7 +48,7 @@
 						<td>{{ guest.name }}</td>
 						<td>
 							{% if isAdmin %}	
-								<a href="{{ guest.link }}">{{ guest.link }}</a>
+								<a href="#" data-toggle="modal" data-target="#myLinkModal" onclick="$('input[name=link]').val('{{ guest.link }}').focus().select();">show</a>
 							{% endif %}
 						</td>
 						<td>
@@ -79,4 +79,5 @@
 {% endblock %}
 {% block modal %}
 	{% include "./invite.html" %}
+	{% include "./link.html" %}
 {% endblock%}
