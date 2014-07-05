@@ -32,7 +32,7 @@ var Invites={
 			};
 
     		//collect guests
-	    	req.db.guests.find().toArray(function(error, guestsList){
+	    	req.db.guests.find().sort( { name: 1 } ).toArray(function(error, guestsList){
 			    if (error) return next(error);guestsList
 			    guests=guestsList||[];	
 			    render();
